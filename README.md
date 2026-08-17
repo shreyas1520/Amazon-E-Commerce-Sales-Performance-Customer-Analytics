@@ -143,6 +143,7 @@ The project uses the following core business metrics consistently across the ana
 ### Gross Product Value
 
 Quantity × UnitPrice
+
 Represents the gross value of products before discounts.
 
 ### Discount Amount
