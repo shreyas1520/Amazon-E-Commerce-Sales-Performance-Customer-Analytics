@@ -134,3 +134,33 @@ The final analysis consolidates the findings into:
 - Data-driven recommendations
 
 ---
+---
+
+## Core Metrics
+
+The project uses the following core business metrics consistently across the analytical workflow.
+
+### Gross Product Value
+
+Quantity × UnitPrice
+Represents the gross value of products before discounts.
+
+### Discount Amount
+Gross Product Value × Discount
+
+Represents the value reduced through discounts.
+
+### Net Product Sales
+Gross Product Value − Discount Amount
+
+Represents product sales after applying discounts.
+
+### Effective Unit Price
+UnitPrice × (1 − Discount)
+
+Represents the effective selling price per unit after discount.
+
+### Total Order Value
+TotalAmount
+
+Represents the recorded total value associated with the transaction.
