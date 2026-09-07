@@ -1,504 +1,856 @@
-# Amazon E-Commerce Sales Performance & Customer Analytics
+# Amazon E-Commerce Sales & Performance Analytics
 
-An end-to-end e-commerce analytics project that transforms 100,000 transactional records into structured business insights using Python, Pandas, PostgreSQL, SQL, and Power BI.
-
-The project evaluates sales performance, customer behavior, product and category performance, discount and pricing patterns, seller concentration, geographic trends, and order and payment behavior.
+An end-to-end e-commerce analytics project using **Python, PostgreSQL, SQL, Power BI, DAX, and Power Query** to analyze sales performance, customer behavior, products, categories, sellers, geography, discounts, orders, payments, and operational performance.
 
 ---
 
 ## Executive Summary
 
-This project analyzes **100,000 e-commerce transactions** to identify sales trends, customer behavior, product performance, seller concentration, discount patterns, and geographic opportunities.
+This project analyzes **100,000 e-commerce order records** to convert transactional data into structured business insights.
 
-### Key Findings
+The workflow covers:
 
-* Generated **$84.24M in Net Product Sales** across 100,000 orders.
-* **Electronics** was the highest-performing category, generating **$14.29M**, representing **16.96%** of Net Product Sales.
-* **68.70% of customers were repeat buyers**, indicating a high level of repeat purchasing activity within the dataset.
-* The **top 5 sellers contributed 38.53%** of observed sales, while the **top 10 sellers contributed 76.23%**, indicating significant seller concentration.
-* The **United States generated $58.99M** in Net Product Sales, making it the highest-performing country.
-* **Jeans** was the highest-selling product by Net Product Sales at **$343,506.76**.
-* **Credit Card** was the most frequently used payment method, accounting for **35,038 orders**.
+**Raw Data → Python/Pandas → Data Validation & Feature Engineering → PostgreSQL → SQL Analysis → Power BI/DAX → Business Insights**
 
-### Business Takeaway
+The analysis evaluates:
 
-The analysis indicates strong overall sales and repeat-customer activity, but also highlights concentration across sellers and geographies. These findings provide opportunities to investigate seller dependency, category growth, customer retention, and geographic performance.
+- Sales and order performance
+- Product and category performance
+- Customer purchasing behavior
+- Repeat purchasing
+- Discount and pricing patterns
+- Seller performance and concentration
+- Geographic performance
+- Order status and payment behavior
+- Shipping cost and operational performance
+- Monthly sales and order trends
+
+The final Power BI report provides four analytical dashboard pages:
+
+1. **Amazon E-Commerce Sales & Performance**
+2. **Product & Customer Analysis**
+3. **Sales & Order Performance**
+4. **Seller & Operational Analysis**
 
 ---
 
 ## Business Objectives
 
-The project addresses the following business questions:
+The project was designed to answer practical business questions such as:
 
-* How are sales performing over time?
-* Which products and categories generate the highest sales?
-* Which customers contribute the most sales and repeat activity?
-* How are discounts distributed across products and categories?
-* Which sellers contribute the most to sales?
-* How concentrated are sales among top sellers?
-* Which countries, states, and cities perform best?
-* Which payment methods are most frequently used?
-* How does order activity vary across different order statuses?
-* Which products and categories provide potential growth opportunities?
-* What business risks and opportunities can be identified from the data?
+- What is the overall sales and order performance?
+- Which categories and products generate the highest sales?
+- Which customers contribute the most sales or orders?
+- What proportion of customers make repeat purchases?
+- How are discounts distributed across categories?
+- Which sellers contribute the most sales?
+- How concentrated are sales among top sellers?
+- Which countries and cities generate the highest sales?
+- What is the most common order status?
+- Which payment method is most frequently used?
+- How do sales, orders, and shipping costs change over time?
+- What operational patterns can be identified from seller and shipping data?
 
 ---
 
 ## Dataset
 
-The dataset contains transactional e-commerce data with information covering orders, customers, products, sellers, pricing, discounts, geography, payment methods, and order status.
+### Dataset Size
 
-| Dataset Metric   |   Value |
-| ---------------- | ------: |
-| Transactions     | 100,000 |
-| Unique Orders    | 100,000 |
-| Unique Customers |  43,233 |
-| Unique Products  |      50 |
-| Unique Sellers   |   1,999 |
-| Categories       |       6 |
-| Countries        |       5 |
-| Cities           |      20 |
-| Units Sold       | 300,140 |
+| Metric | Value |
+|---|---:|
+| Raw Rows | 100,000 |
+| Raw Columns | 20 |
+| Final Analytical Columns | 25 |
+| Unique Orders | 100,000 |
+| Unique Customers | 43,233 |
+| Unique Products | 50 |
+| Unique Sellers | 1,999 |
+| Categories | 6 |
+| Countries | 5 |
+| Cities | 20 |
+| Units Sold | 300,140 |
+
+### Main Fields
+
+The dataset contains fields covering:
+
+- Order information
+- Customer information
+- Product information
+- Category and brand
+- Quantity and unit price
+- Discount
+- Tax
+- Shipping cost
+- Total order amount
+- Payment method
+- Order status
+- Seller
+- City, state, and country
+
+### Derived Analytical Fields
+
+The project created additional analytical fields including:
+
+- `Year`
+- `Month`
+- `MonthName`
+- `Quarter`
+- `YearMonth`
+- `GrossProductValue`
+- `DiscountAmount`
+- `NetProductSales`
+- `EffectiveUnitPrice`
+- `DiscountPercent`
 
 ---
 
-## Technology Stack
+## Tech Stack
 
-### Data Processing & Analysis
-
-* Python
-* Pandas
-* NumPy
-* Matplotlib
-* Seaborn
-
-### Database & SQL
-
-* PostgreSQL
-* SQL
-* Common Table Expressions (CTEs)
-* Window Functions
-* Aggregations
-* Conditional Analysis
-
-### Business Intelligence
-
-* Power BI
-* DAX
-* Power Query
-
-### Development & Documentation
-
-* Jupyter Notebook
-* GitHub
+| Area | Tools |
+|---|---|
+| Programming | Python |
+| Data Analysis | Pandas, NumPy |
+| Visualization | Matplotlib, Seaborn |
+| Database | PostgreSQL |
+| Querying | SQL |
+| Business Intelligence | Power BI |
+| BI Calculations | DAX |
+| Data Transformation | Power Query |
+| Development | Jupyter Notebook, VS Code |
+| Version Control | Git, GitHub |
 
 ---
 
 ## Analytical Workflow
 
-```text
-Raw Data
-   ↓
-Python / Pandas
-   ↓
-Data Cleaning & Validation
-   ↓
-Feature Engineering
-   ↓
-PostgreSQL
-   ↓
-SQL Business Analysis
-   ↓
-Power BI / DAX
-   ↓
-Interactive Reporting
-   ↓
-Business Insights & Recommendations
-```
+### 1. Data Understanding
 
-### Role of Each Technology
+Inspected:
 
-**Python / Pandas**
-Used for data profiling, cleaning, validation, feature engineering, and exploratory data analysis.
+- Dataset dimensions
+- Column names
+- Data types
+- Numerical and categorical fields
+- Date fields
+- Identifier uniqueness
+- Financial fields
+- Business meaning of important columns
 
-**PostgreSQL**
-Used as the relational database layer to store the prepared dataset in a structured format.
+### 2. Data Cleaning & Validation
 
-**SQL**
-Used to perform repeatable business analysis, aggregations, customer analysis, seller analysis, ranking, and contribution calculations.
+Performed checks for:
 
-**Power BI / DAX**
-Used to create KPI measures, interactive dashboards, filtering, and business reporting.
+- Missing values
+- Duplicate rows
+- Duplicate OrderIDs
+- Invalid dates
+- Future dates
+- Negative quantities
+- Negative prices
+- Negative discounts
+- Negative tax values
+- Negative shipping costs
+- Categorical consistency
+- Geographic consistency
+- Financial calculation consistency
 
----
+The validation showed:
 
-# Data Cleaning & Validation
+- **0 missing values**
+- **0 duplicate rows**
+- **0 duplicate OrderIDs**
+- **0 invalid/future dates**
+- **0 negative values in the checked numerical fields**
 
-The dataset was validated before analysis to ensure consistency and reliability.
+The final analytical dataset contained **100,000 rows and 25 columns**.
 
-### Validation Checks
-
-* **0** missing values
-* **0** duplicate rows
-* **0** duplicate OrderIDs
-* No invalid or future dates detected
-* No negative values in validated numeric fields
-* Data types validated and standardized
-* Date fields converted to appropriate date formats
-* Derived metrics validated against source fields
-
-### Feature Engineering
-
-Additional analytical fields were created, including:
-
-* GrossProductValue
-* DiscountAmount
-* NetProductSales
-* EffectiveUnitPrice
-* DiscountPercent
-* Year
-* Month
-* MonthName
-* Quarter
-* YearMonth
+Importantly, the project did not remove large numbers of records unnecessarily. The dataset was structurally clean, so the focus was on validation, transformation, and feature engineering.
 
 ---
 
-# Exploratory Data Analysis
+## Financial Metric Definitions
 
-The exploratory analysis examines:
-
-* Sales distributions
-* Sales trends over time
-* Product and category performance
-* Customer purchasing behavior
-* Discount patterns
-* Seller performance
-* Geographic distribution
-* Order status
-* Payment methods
-
-EDA was used to identify patterns and determine areas requiring deeper business analysis.
-
----
-
-# Business Analysis
-
-## 1. Sales Performance
-
-The analysis evaluates:
-
-* Total orders
-* Total customers
-* Total units sold
-* Gross Product Value
-* Discount Amount
-* Net Product Sales
-* Average Order Value
-* Median Order Value
-* Monthly sales trends
-* Daily sales trends
-* Sales growth
-
-### Key Metrics
-
-| Metric                     |   Value |
-| -------------------------- | ------: |
-| Net Product Sales          | $84.24M |
-| Gross Product Value        | $91.02M |
-| Discount Amount            |  $6.78M |
-| Total Recorded Order Value | $91.83M |
-| Average Order Value        | $918.26 |
-| Median Order Value         | $714.32 |
-| Average Discount Rate      |   7.42% |
-| Weighted Discount Rate     |   7.45% |
-
----
-
-## 2. Product & Category Analytics
-
-The analysis evaluates:
-
-* Top products by Net Product Sales
-* Top products by units sold
-* Category performance
-* Brand performance
-* Category contribution
-* Top products within each category
-
-### Key Finding
-
-**Electronics** generated **$14.29M** in Net Product Sales, representing **16.96%** of total Net Product Sales.
-
-**Jeans** was the highest-performing product by Net Product Sales at **$343,506.76**.
-
----
-
-## 3. Customer Analytics
-
-Customer analysis focuses on:
-
-* Customer order frequency
-* Customer sales contribution
-* Repeat customer behavior
-* Customer segmentation
-* Customer-category purchasing behavior
-
-### Key Finding
-
-**68.70% of customers were repeat buyers**, indicating substantial repeat purchasing activity within the observed dataset.
-
----
-
-## 4. Discount & Pricing Analytics
-
-The analysis evaluates:
-
-* Discount distribution
-* Average discount
-* Weighted discount
-* Discount by category
-* Discount by brand
-* High-discount products
-* Effective selling price
-
-The analysis distinguishes between gross product value, discounts, and Net Product Sales to avoid mixing different financial measures.
-
----
-
-## 5. Seller Analytics
-
-The analysis evaluates:
-
-* Seller sales performance
-* Seller order volume
-* Seller customer reach
-* Seller product coverage
-* Seller concentration
-* Top sellers by category
-
-### Key Finding
-
-The top 5 sellers contributed **38.53%** of observed sales, while the top 10 sellers contributed **76.23%**.
-
-### Business Implication
-
-The high concentration indicates potential dependency on a relatively small number of sellers. Further analysis could evaluate seller diversification and performance stability.
-
----
-
-## 6. Geographic Analytics
-
-The analysis evaluates:
-
-* Country performance
-* State performance
-* City performance
-* Geographic sales contribution
-* Country-category performance
-* Geographic concentration
-
-### Key Findings
-
-* **United States:** $58.99M in Net Product Sales
-* **Charlotte:** $3.03M in Net Product Sales, the highest city-level contribution
-
-These results provide a basis for investigating geographic expansion opportunities and market concentration.
-
----
-
-## 7. Order & Payment Analytics
-
-The analysis evaluates:
-
-* Order status distribution
-* Payment method usage
-* Payment method sales contribution
-* Payment method by country
-* Payment method by order status
-* High-value orders
-
-### Key Findings
-
-* **Credit Card** was the most frequently used payment method with **35,038 orders**.
-* **Delivered** was the most common order status with **74,628 orders**.
-
----
-
-# SQL Analytics
-
-PostgreSQL and SQL were used to perform structured business analysis on the transactional dataset.
-
-### SQL techniques used
-
-* `GROUP BY`
-* Aggregate functions
-* `CASE WHEN`
-* Common Table Expressions (CTEs)
-* Window Functions
-* Ranking
-* Conditional aggregation
-* Percentage calculations
-* Customer-level analysis
-* Seller contribution analysis
-* Time-based analysis
-
-### Example Business Analysis
-
-A CTE-based analysis was used to calculate the percentage of customers with more than one order, resulting in a **68.70% repeat customer rate**.
-
-SQL analysis was designed around business questions rather than only technical demonstrations.
-
----
-
-# Power BI Dashboard
-
-The Power BI dashboard converts the analytical results into interactive business reporting.
-
-### Dashboard capabilities
-
-* KPI cards
-* Sales performance analysis
-* Customer analysis
-* Product and category analysis
-* Seller performance
-* Geographic analysis
-* Order and payment analysis
-* Slicers
-* Cross-filtering
-* Interactive visualizations
-
-### Dashboard Objective
-
-The dashboard allows users to explore sales, customer, product, seller, and geographic performance interactively and identify areas requiring further investigation.
-
----
-
-# Key Business Insights
-
-### Sales
-
-**$84.24M** in Net Product Sales were generated across **100,000 orders**, with an Average Order Value of **$918.26**.
-
-### Category
-
-**Electronics** generated **$14.29M**, contributing **16.96%** of Net Product Sales.
-
-### Customers
-
-**68.70%** of customers were repeat buyers, highlighting strong repeat purchasing activity within the dataset.
-
-### Sellers
-
-The top 10 sellers contributed **76.23%** of observed sales, indicating significant seller concentration.
-
-### Geography
-
-The **United States** generated **$58.99M** in Net Product Sales, while **Charlotte** generated **$3.03M**, the highest city-level contribution.
-
-### Products
-
-**Jeans** generated the highest Net Product Sales among individual products at **$343,506.76**.
-
----
-
-# Data-Driven Recommendations
-
-### 1. Investigate Seller Concentration
-
-With the top 10 sellers contributing **76.23%** of observed sales, seller diversification and dependency should be evaluated.
-
-### 2. Investigate Electronics Growth
-
-Electronics is the highest-performing category. Further analysis of products, brands, pricing, discounts, and sellers within the category could identify additional growth opportunities.
-
-### 3. Leverage Repeat-Customer Behavior
-
-With **68.70%** of customers identified as repeat buyers, customer retention and repeat-purchase patterns could be investigated further.
-
-### 4. Analyze Geographic Concentration
-
-The strong contribution from the United States provides an opportunity to analyze state- and city-level performance and identify areas for expansion or geographic dependency.
-
-### 5. Evaluate Discount Effectiveness
-
-Discount patterns should be evaluated alongside Net Product Sales and product/category performance to identify whether higher discounts correspond with stronger sales performance.
-
-> **Note:** These are data-driven recommendations based on the observed dataset and are not claims of measured real-world business impact.
-
----
-
-# Core Metrics
-
-The project uses consistent metric definitions throughout the analytical workflow.
+A major analytical consideration in this project was keeping different financial fields separate.
 
 ### Gross Product Value
 
 ```text
-Quantity × UnitPrice
+Gross Product Value = Quantity × UnitPrice
 ```
-
-Represents the gross value of products before discounts.
 
 ### Discount Amount
 
 ```text
-Gross Product Value × Discount
+Discount Amount = Gross Product Value × Discount
 ```
-
-Represents the value reduced through discounts.
 
 ### Net Product Sales
 
 ```text
-Gross Product Value − Discount Amount
+Net Product Sales = Gross Product Value − Discount Amount
 ```
-
-Represents product sales after applying discounts.
 
 ### Effective Unit Price
 
 ```text
-UnitPrice × (1 − Discount)
+Effective Unit Price = UnitPrice × (1 − Discount)
 ```
-
-Represents the effective selling price per unit after discount.
 
 ### Total Recorded Order Value
 
 ```text
-TotalAmount
+Total Recorded Order Value = TotalAmount
 ```
 
-Represents the recorded total value associated with the transaction.
+`TotalAmount` is the dataset's recorded order amount and includes the recorded tax and shipping components.
+
+### Important Metric Distinction
+
+**Net Product Sales and Total Recorded Order Value are not interchangeable.**
+
+The Power BI dashboard's **Total Sales** measure uses `TotalAmount`, while several deeper analytical findings use `Net Product Sales`.
+
+This distinction is maintained throughout the project to avoid mixing different financial concepts.
 
 ---
 
-# Data Quality & Analytical Considerations
+## Core Business KPIs
 
-The project prioritizes validation before analysis and distinguishes between descriptive findings and causal conclusions.
+| KPI | Verified Value |
+|---|---:|
+| Gross Product Value | **$91.02M** |
+| Discount Amount | **$6.78M** |
+| Net Product Sales | **$84.24M** |
+| Total Recorded Order Value | **$91.83M** |
+| Average Order Value | **$918.26** |
+| Median Order Value | **$714.32** |
+| Average Discount Rate | **7.42%** |
+| Weighted Discount Rate | **7.45%** |
+| Repeat Customer Rate | **68.70%** |
+| Top 5 Seller Sales Share | **38.53%** |
+| Top 10 Seller Sales Share | **76.23%** |
 
-* High-value transactions were retained when they passed data-quality checks rather than being removed solely because of their magnitude.
-* Seller and geographic concentration findings describe the observed dataset and should not automatically be generalized to the broader e-commerce market.
-* Customer repeat-purchase analysis is based on transaction history available in the dataset.
-* Relationships identified during analysis represent observed patterns and do not establish causality.
+### Power BI Dashboard KPI Verification
+
+The uploaded Power BI screenshots were checked against the project calculations.
+
+The Executive and Sales & Order Performance pages display:
+
+- **Total Sales:** approximately **$91.82M** on the dashboard card; underlying project value is **$91.83M Total Recorded Order Value**
+- **Average Order Value:** **$918.26**
+- **Total Quantity Sold:** **300K** displayed; underlying value **300,140**
+- **Total Orders:** **100K** displayed; underlying value **100,000**
+- **Total Customers:** **43K** displayed; underlying value **43,233**
+
+The Seller & Operational Analysis page displays:
+
+- **Total Sellers:** **2K** displayed; underlying value **1,999**
+- **Average Seller Sales:** **$45.94K**
+- **Average Shipping Cost:** **$7.41**
+- **Total Shipping Cost:** **$740.67K**
 
 ---
 
-# Limitations
+## Exploratory Data Analysis
 
-* The dataset represents an e-commerce analytical environment and may not reflect actual Amazon operational data.
-* Analysis is based on the available transaction sample.
-* The dataset does not include customer acquisition cost or marketing campaign data.
-* Inventory, fulfillment, return-cost, and operational logistics data were not available.
-* Observed relationships should not be interpreted as causal relationships.
-* Seller concentration reflects the observed dataset and may differ from the broader marketplace.
+The exploratory analysis examined the distribution and behavior of:
+
+- Sales
+- Orders
+- Quantity
+- Unit price
+- Discount
+- Shipping cost
+- Customer purchasing frequency
+- Product performance
+- Seller performance
+- Geographic sales
+- Order status
+- Payment methods
+- Monthly trends
+
+Visualization techniques included:
+
+- Bar charts
+- Line charts
+- Histograms
+- Boxplots
+- Category comparisons
+- Customer rankings
+- Seller rankings
+- Geographic comparisons
+- Discount-versus-sales analysis
 
 ---
+
+## Product & Category Analysis
+
+The project compared product and category performance using:
+
+- Net Product Sales
+- Total Recorded Order Value
+- Orders
+- Units sold
+- Customers
+- Average Order Value
+- Average discount
+
+### Key Finding — Electronics
+
+**Electronics** was the strongest category based on Net Product Sales.
+
+- Net Product Sales: **$14,288,614.19**
+- Sales Share: **16.96%**
+- Average Order Value: approximately **$924.71**
+
+This indicates that Electronics was one of the strongest categories in the dataset and may deserve attention in areas such as product availability, inventory planning, and cross-selling.
+
+### Highest-Selling Product
+
+The highest-selling product based on Net Product Sales was:
+
+**Jeans — $343,506.76**
+
 ---
 
-# Conclusion
+## Customer Analysis
 
-This project demonstrates an end-to-end data analytics workflow using **Python, PostgreSQL, SQL, and Power BI** to transform transactional e-commerce data into structured business insights.
+Customer-level analysis was performed using:
 
-The analysis combines data preparation, exploratory analysis, SQL-based business questions, KPI development, interactive visualization, quantified findings, and data-driven recommendations to demonstrate practical data analyst capabilities.
+- Distinct customers
+- Orders per customer
+- Products purchased
+- Categories purchased
+- Units purchased
+- Net Product Sales
+- Total Recorded Order Value
+- Average Order Value
+
+### Repeat Customer Rate
+
+The project defines a repeat customer as a customer with more than one order in the dataset.
+
+```text
+Repeat Customer Rate = Customers with >1 order / Total Customers × 100
+```
+
+Verified result:
+
+**68.70%**
+
+This is an observed repeat-purchasing signal within the dataset. It should not be interpreted as a formal customer-retention or churn metric because the dataset does not contain complete customer lifecycle or churn information.
+
+### Customer Segmentation
+
+Customers were grouped according to observed order frequency:
+
+- **High Frequency:** 5 or more orders
+- **Medium Frequency:** 3–4 orders
+- **Repeat Customer:** 2 orders
+- **Single Order:** 1 order
+
+The Power BI dashboard also provides:
+
+- Top 10 Customers by Sales
+- Top 10 Customers by Orders
+
+---
+
+## Discount & Pricing Analysis
+
+Discount behavior was analyzed at both overall and category levels.
+
+### Verified Overall Discount Metrics
+
+- Average Discount Rate: **7.42%**
+- Weighted Discount Rate: **7.45%**
+- Total Discount Amount: **$6.78M**
+
+The weighted discount rate is calculated as:
+
+```text
+Weighted Discount Rate =
+Total Discount Amount / Total Gross Product Value × 100
+```
+
+### Analytical Interpretation
+
+A high discount rate may coexist with strong sales, but the dataset does not contain product cost, seller commission, or other complete profitability information.
+
+Therefore, discount analysis is interpreted as a **pricing and sales pattern**, not as proof of profitability or discount effectiveness.
+
+---
+
+## Seller Analysis
+
+Seller performance was analyzed using:
+
+- Sales
+- Orders
+- Customers
+- Products
+- Categories
+- Units
+- Average Order Value
+- Average Discount
+- Shipping Cost
+
+### Highest-Selling Seller
+
+**SELL00806 — $65,834.21 Net Product Sales**
+
+### Seller Concentration
+
+| Seller Group | Share of Net Product Sales |
+|---|---:|
+| Top 5 Sellers | **38.53%** |
+| Top 10 Sellers | **76.23%** |
+
+The results indicate that a relatively small group of sellers contributes a large share of observed sales.
+
+This should be treated as a **seller concentration indicator**, not proof of a serious business risk.
+
+The Power BI dashboard includes:
+
+- Top 10 Sellers by Sales
+- Shipping Cost by Country
+- Seller Sales vs Shipping Cost
+- Monthly Shipping Cost Trend
+
+---
+
+## Geographic Analysis
+
+The project analyzed performance by:
+
+- Country
+- State
+- City
+
+### Highest-Selling Country
+
+**United States — $58,994,016.27 Net Product Sales**
+
+### Highest-Selling City
+
+**Charlotte, NC, United States — $3,033,620.31 Net Product Sales**
+
+The dashboard provides a country-level sales comparison across:
+
+- United States
+- India
+- Canada
+- United Kingdom
+- Australia
+
+The United States is the strongest observed market in the dataset.
+
+---
+
+## Order & Payment Analysis
+
+Order performance was evaluated using:
+
+- Order status
+- Order count
+- Customer count
+- Units
+- Sales
+- Average Order Value
+- Payment method
+
+### Most Common Order Status
+
+**Delivered — 74,628 orders**
+
+### Most Popular Payment Method
+
+**Credit Card — 35,038 orders**
+
+The Sales & Order Performance dashboard also analyzes:
+
+- Sales by Order Status
+- Order Status by Country
+- Monthly Order Trend
+- Monthly Sales Growth %
+
+### Sales by Order Status
+
+The dashboard shows:
+
+- Delivered: **$68.37M (74.46%)**
+- Shipped: **$14.08M (15.34%)**
+- Pending: **$2.85M (3.1%)**
+- Remaining sales are associated with Cancelled and Returned orders.
+
+These dashboard percentages are based on the report's Total Sales / `TotalAmount` context.
+
+---
+
+## Shipping & Operational Analysis
+
+Shipping cost was analyzed by:
+
+- Country
+- Seller
+- Month
+- Total sales
+
+### Verified Dashboard KPIs
+
+- Total Shipping Cost: **$740.67K**
+- Average Shipping Cost: **$7.41**
+- Average Seller Sales: **$45.94K**
+- Total Sellers: **1,999**
+
+### Operational Views
+
+The dashboard contains:
+
+- Shipping Cost by Country
+- Top 10 Sellers by Sales
+- Seller Sales vs Shipping Cost
+- Monthly Shipping Cost Trend
+
+The seller-versus-shipping scatter plot provides an exploratory view of the relationship between observed seller sales and shipping costs.
+
+This should be interpreted as an observed relationship rather than proof of causation.
+
+---
+
+## SQL Analysis
+
+PostgreSQL was used to store the cleaned dataset and SQL was used for structured business analysis.
+
+The project used:
+
+- `SELECT`
+- `WHERE`
+- `GROUP BY`
+- `ORDER BY`
+- `DISTINCT`
+- `COUNT`
+- `SUM`
+- `AVG`
+- `CASE`
+- `FILTER`
+- CTEs
+- Window functions
+- Ranking
+- Date functions
+- Business-oriented aggregations
+
+### Example Business Questions
+
+SQL analysis addressed questions such as:
+
+- Which month generated the highest sales?
+- Which product generated the highest sales?
+- Which seller generated the highest sales?
+- Which country generated the highest sales?
+- Which city generated the highest sales?
+- Which payment method was most popular?
+- What was the most common order status?
+- What percentage of customers were repeat customers?
+- How concentrated were sales among top sellers?
+
+### Repeat Customer SQL Concept
+
+The repeat-customer analysis used a customer-level aggregation to:
+
+1. Count distinct orders per customer.
+2. Identify customers with more than one order.
+3. Calculate the percentage of repeat customers.
+
+Verified result:
+
+**68.70%**
+
+---
+
+## Power BI Dashboard
+
+The final Power BI report contains four analytical pages.
+
+### 1. Amazon E-Commerce Sales & Performance
+
+Provides the executive overview with:
+
+- Total Sales
+- Average Order Value
+- Total Quantity Sold
+- Total Orders
+- Total Customers
+- Monthly Sales Trend
+- Sales by Country
+- Sales by Category
+- Interactive filters for:
+  - Year Month
+  - Category
+  - Country
+  - Order Status
+
+### 2. Product & Customer Analysis
+
+Provides:
+
+- Top 10 Products by Sales
+- Sales by Brand
+- Top 10 Customers by Sales
+- Top 10 Customers by Orders
+- Discount vs Sales
+
+### 3. Sales & Order Performance
+
+Provides:
+
+- Total Sales
+- Total Orders
+- Average Order Value
+- Total Quantity Sold
+- Monthly Sales Growth %
+- Sales by Country
+- Order Status by Country
+- Sales by Order Status
+- Monthly Order Trend
+
+### 4. Seller & Operational Analysis
+
+Provides:
+
+- Total Sellers
+- Average Seller Sales
+- Average Shipping Cost
+- Total Shipping Cost
+- Shipping Cost by Country
+- Top 10 Sellers by Sales
+- Seller Sales vs Shipping Cost
+- Monthly Shipping Cost Trend
+
+---
+
+## DAX Measures
+
+The Power BI report uses dynamic DAX measures rather than hardcoded KPI values.
+
+### Total Sales
+
+```DAX
+Total Sales =
+SUM('ecommerce amazon_sales'[TotalAmount])
+```
+
+### Total Orders
+
+```DAX
+Total Orders =
+DISTINCTCOUNT('ecommerce amazon_sales'[OrderID])
+```
+
+### Average Order Value
+
+```DAX
+Average Order Value =
+DIVIDE(
+    [Total Sales],
+    [Total Orders]
+)
+```
+
+### Total Customers
+
+```DAX
+Total Customers =
+DISTINCTCOUNT('ecommerce amazon_sales'[CustomerID])
+```
+
+### Total Sellers
+
+```DAX
+Total Sellers =
+DISTINCTCOUNT('ecommerce amazon_sales'[SellerID])
+```
+
+### Total Shipping Cost
+
+```DAX
+Total Shipping Cost =
+SUM('ecommerce amazon_sales'[ShippingCost])
+```
+
+### Average Shipping Cost
+
+```DAX
+Average Shipping Cost =
+AVERAGE('ecommerce amazon_sales'[ShippingCost])
+```
+
+### Additional Measures
+
+The dashboard also contains measures for:
+
+- Average Seller Sales
+- Sales Growth %
+
+The exact period definition used by the Sales Growth % measure should be verified directly in the Power BI model before describing it as MoM, YoY, or another specific comparison.
+
+---
+
+## Key Business Insights
+
+### 1. Electronics was the strongest category
+
+Electronics generated **$14.29M in Net Product Sales**, representing **16.96%** of total Net Product Sales.
+
+### 2. Repeat purchasing was substantial
+
+**68.70%** of customers had placed more than one order in the dataset.
+
+This indicates a strong observed repeat-purchasing pattern within the available data.
+
+### 3. Seller sales were concentrated
+
+The top 5 sellers contributed **38.53%** of Net Product Sales, while the top 10 contributed **76.23%**.
+
+This concentration can be monitored as an indicator of marketplace dependency on a smaller group of high-performing sellers.
+
+### 4. United States was the strongest geographic market
+
+The United States generated **$58.99M in Net Product Sales**, making it the strongest country in the dataset.
+
+### 5. Delivered orders dominated order status
+
+**74,628 orders** were classified as Delivered, making it the most common order status.
+
+### 6. Credit Card was the most common payment method
+
+Credit Card accounted for **35,038 orders**.
+
+### 7. Sales and shipping costs were analyzed together
+
+The Seller & Operational Analysis dashboard compares seller sales and shipping costs to identify observable operational patterns and areas for further investigation.
+
+---
+
+## Data-Driven Recommendations
+
+### Category Strategy
+
+- Prioritize high-performing categories such as Electronics for inventory and availability analysis.
+- Investigate category-level sales and discount patterns before changing pricing strategies.
+- Explore cross-selling opportunities around high-performing categories.
+
+### Customer Strategy
+
+- Use repeat-purchasing behavior to support loyalty and retention analysis.
+- Extend the analysis with RFM segmentation.
+- Investigate high-frequency customers separately from one-time purchasers.
+
+### Seller Strategy
+
+- Monitor sales concentration among top sellers.
+- Develop additional high-performing sellers to diversify marketplace contribution.
+- Combine seller sales with seller ratings, returns, inventory, and service metrics in future analysis.
+
+### Geographic Strategy
+
+- Prioritize high-performing markets for deeper category and customer analysis.
+- Compare geographic performance with population, market size, delivery time, and shipping cost when those variables become available.
+
+### Operational Strategy
+
+- Monitor shipping cost trends over time.
+- Investigate sellers or markets with unusually high shipping costs relative to sales.
+- Combine shipping analysis with delivery performance and distance data in future iterations.
+
+---
+
+## Limitations
+
+The dataset does not contain:
+
+- Product cost
+- Profit or profit margin
+- Seller commission
+- Seller rating
+- Customer rating/review
+- Inventory level
+- Return amount
+- Payment processing cost
+- Fraud labels
+- Shipping distance
+- Latitude/longitude
+- Regional market size
+- Marketing spend
+
+Therefore:
+
+- The project is primarily **sales and operational analytics**, not profitability analytics.
+- Sales patterns should not be interpreted as causal relationships.
+- Repeat purchasing is an observed dataset-level signal, not a formal churn/retention model.
+- Seller concentration is an indicator for investigation, not proof of business risk.
+- Dashboard and analytical metrics must be interpreted according to their defined metric context.
+
+---
+
+## Future Scope
+
+Potential improvements include:
+
+- Profitability analysis
+- Cost of Goods Sold integration
+- Seller commission analysis
+- Return and refund analysis
+- RFM customer segmentation
+- Customer Lifetime Value
+- Inventory analysis
+- Delivery-time analysis
+- Product and seller ratings
+- Predictive sales forecasting
+- Customer behavior prediction
+- Seller risk/concentration monitoring
+- Anomaly detection
+- More advanced geographic analysis
+
+The project should not attempt to predict profitability from the current dataset because the required cost information is not available.
+
+---
+
+## Project Outcome
+
+The main learning outcome was understanding that data analytics is not only about creating dashboards. Reliable analysis requires:
+
+- Understanding the dataset
+- Validating data quality
+- Defining metrics correctly
+- Asking meaningful business questions
+- Separating analytical metrics carefully
+- Connecting findings to business decisions
+- Recognizing limitations before making conclusions
+
+---
+
+## Conclusion
+
+The Amazon E-Commerce Sales & Performance Analytics project converts **100,000 transactional records** into an interactive analytical solution covering sales, customers, products, categories, sellers, geography, orders, payments, discounts, and shipping operations.
+
+The analysis identified:
+
+- **$91.83M Total Recorded Order Value**
+- **$84.24M Net Product Sales**
+- **$918.26 Average Order Value**
+- **68.70% Repeat Customer Rate**
+- **16.96% Net Product Sales share for Electronics**
+- **38.53% Top 5 Seller Sales Share**
+- **76.23% Top 10 Seller Sales Share**
+
+The project demonstrates practical use of **Python, PostgreSQL, SQL, Power BI, DAX, and Power Query** to transform raw transactional data into structured business insights and decision-support reporting.
+
+
+---
+
+## Author
+
+**Shreyas Kadam**
