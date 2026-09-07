@@ -8,9 +8,6 @@ An end-to-end e-commerce analytics project using **Python, PostgreSQL, SQL, Powe
 
 This project analyzes **100,000 e-commerce order records** to convert transactional data into structured business insights.
 
-The workflow covers:
-
-**Raw Data → Python/Pandas → Data Validation & Feature Engineering → PostgreSQL → SQL Analysis → Power BI/DAX → Business Insights**
 
 The analysis evaluates:
 
