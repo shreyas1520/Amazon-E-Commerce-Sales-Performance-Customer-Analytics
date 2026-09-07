@@ -495,37 +495,6 @@ The project prioritizes validation before analysis and distinguishes between des
 * Seller concentration reflects the observed dataset and may differ from the broader marketplace.
 
 ---
-
-# Project Structure
-
-```text
-Amazon-E-Commerce-Sales-Performance-Customer-Analytics/
-│
-├── data/
-│   ├── raw/
-│   └── processed/
-│
-├── notebooks/
-│   ├── 01_Data_Cleaning.ipynb
-│   ├── 02_EDA.ipynb
-│   └── 03_Analysis.ipynb
-│
-├── sql/
-│   ├── sales_analysis.sql
-│   ├── customer_analysis.sql
-│   ├── product_analysis.sql
-│   ├── seller_analysis.sql
-│   └── advanced_analysis.sql
-│
-├── powerbi/
-│   └── Amazon_Ecommerce_Dashboard.pbix
-│
-├── screenshots/
-│
-├── README.md
-└── requirements.txt
-```
-
 ---
 
 # Conclusion
